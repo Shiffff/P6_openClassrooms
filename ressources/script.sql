@@ -3,14 +3,18 @@ CREATE TABLE `users` (
   `id` INT AUTO_INCREMENT PRIMARY KEY,
   `username` VARCHAR(50) UNIQUE NOT NULL,
   `email` VARCHAR(120) UNIQUE NOT NULL,
-  `password` VARCHAR(255) NOT NULL
+  `password` VARCHAR(255) NOT NULL,
+  `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
 
 -- Création de la table des thèmes
 CREATE TABLE `themes` (
   `id` INT AUTO_INCREMENT PRIMARY KEY,
   `title` VARCHAR(100) NOT NULL,
-  `description` TEXT NOT NULL
+  `description` TEXT NOT NULL,
+  `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
 
 -- Création de la table des articles
@@ -21,6 +25,7 @@ CREATE TABLE `articles` (
   `author` VARCHAR(50) NOT NULL,
   `theme_id` INT NOT NULL,
   `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   FOREIGN KEY (`theme_id`) REFERENCES `themes`(`id`)
 );
 
@@ -31,6 +36,7 @@ CREATE TABLE `comments` (
   `author` VARCHAR(50) NOT NULL,
   `article_id` INT NOT NULL,
   `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   FOREIGN KEY (`article_id`) REFERENCES `articles`(`id`)
 );
 
@@ -39,6 +45,8 @@ CREATE TABLE `user_subscriptions` (
   `user_id` INT NOT NULL,
   `theme_id` INT NOT NULL,
   PRIMARY KEY (`user_id`, `theme_id`),
+  `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   FOREIGN KEY (`user_id`) REFERENCES `users`(`id`),
   FOREIGN KEY (`theme_id`) REFERENCES `themes`(`id`)
 );
