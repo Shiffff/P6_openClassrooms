@@ -42,12 +42,25 @@ CREATE TABLE `comments` (
 
 -- Création de la table de liaison entre les utilisateurs et les thèmes
 CREATE TABLE `user_subscriptions` (
+  `id` INT AUTO_INCREMENT PRIMARY KEY,
   `user_id` INT NOT NULL,
   `theme_id` INT NOT NULL,
-  PRIMARY KEY (`user_id`, `theme_id`),
   `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   FOREIGN KEY (`user_id`) REFERENCES `users`(`id`),
   FOREIGN KEY (`theme_id`) REFERENCES `themes`(`id`)
 );
+
+-- Ajout de 10 thèmes
+INSERT INTO themes (title, description, created_at, updated_at) VALUES
+  ('Angular', 'Framework JavaScript pour le développement d''applications web', NOW(), NOW()),
+  ('React', 'Bibliothèque JavaScript pour la construction d''interfaces utilisateur', NOW(), NOW()),
+  ('Vue.js', 'Framework JavaScript pour la construction d''interfaces utilisateur', NOW(), NOW()),
+  ('jQuery', 'Bibliothèque JavaScript pour simplifier l''utilisation de JavaScript', NOW(), NOW()),
+  ('Node.js', 'Runtime JavaScript pour le développement côté serveur', NOW(), NOW()),
+  ('Express.js', 'Framework Node.js pour la création d''applications web', NOW(), NOW()),
+  ('Bootstrap', 'Framework CSS pour la création d''interfaces utilisateur responsive', NOW(), NOW()),
+  ('Material Design', 'Système de conception d''interface utilisateur développé par Google', NOW(), NOW()),
+  ('Ember.js', 'Framework JavaScript pour le développement d''applications web', NOW(), NOW()),
+  ('Svelte', 'Framework JavaScript pour la construction d''interfaces utilisateur', NOW(), NOW());
 

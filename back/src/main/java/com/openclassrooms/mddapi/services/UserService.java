@@ -3,9 +3,11 @@
     import com.openclassrooms.mddapi.dto.UserDTO;
     import com.openclassrooms.mddapi.entity.User;
     import com.openclassrooms.mddapi.repository.UserRepository;
+    import com.openclassrooms.mddapi.repository.UserSubscriptionRepository;
     import lombok.AllArgsConstructor;
     import lombok.extern.slf4j.Slf4j;
     import org.springframework.dao.DataIntegrityViolationException;
+    import org.springframework.security.core.context.SecurityContextHolder;
     import org.springframework.security.core.userdetails.UserDetailsService;
     import org.springframework.security.core.userdetails.UsernameNotFoundException;
     import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -18,6 +20,8 @@
     public class UserService implements UserDetailsService {
         private final UserRepository userRepository;
         private final BCryptPasswordEncoder passwordEncoder;
+        private final UserSubscriptionRepository userSubscriptionRepository;
+
 
         public void register(User user) {
             try {
@@ -72,6 +76,12 @@
 
             return userRepository.save(userToUpdate);
         }
+        public User getCurrentUser() {
+            User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            System.out.println("\u001B[34mUtilisateur actuel : " + user.getEmail()+ "\u001B[0m");
+            return user;
+        }
+
 
         public class PasswordValidator {
 
@@ -101,15 +111,15 @@
                 return hasUpperCase && hasLowerCase && hasDigit && hasSpecialChar;
             }
 
-            public static void main(String[] args) {
-                String password = "Test123!";
-                if (isValid(password)) {
-                    System.out.println("Le mot de passe est valide.");
-                } else {
-                    System.out.println("Le mot de passe n'est pas valide.");
-                }
-            }
+
         }
-
-
+        public void removeUser() {
+            User user = getCurrentUser();
+            userRepository.delete(user);
+        }
+        public User getCurrentUserWithSubscriptions() {
+            String username = SecurityContextHolder.getContext().getAuthentication().getName();
+            return userRepository.findByUsernameWithSubscriptions(username)
+                    .orElseThrow(() -> new RuntimeException("Utilisateur non trouvé avec le nom d'utilisateur: " + username));
+        }
     }

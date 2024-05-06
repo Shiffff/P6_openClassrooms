@@ -13,6 +13,8 @@ import javax.validation.constraints.*;
 import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -49,6 +51,20 @@ public class User implements UserDetails {
 
     @CreationTimestamp
     private Date created_at;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<UserSubscription> subscriptions = new HashSet<>();
+
+    public void addSubscription(UserSubscription subscription) {
+        subscriptions.add(subscription);
+        subscription.setUser(this);
+    }
+
+    public void removeSubscription(UserSubscription subscription) {
+        subscriptions.remove(subscription);
+        subscription.setUser(null);
+    }
+
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
