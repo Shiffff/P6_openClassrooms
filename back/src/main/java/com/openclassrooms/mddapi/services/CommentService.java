@@ -1,5 +1,6 @@
 package com.openclassrooms.mddapi.services;
 
+import com.openclassrooms.mddapi.dto.ArticlesResDTO;
 import com.openclassrooms.mddapi.dto.CommentDTO;
 import com.openclassrooms.mddapi.entity.Article;
 import com.openclassrooms.mddapi.entity.Comment;
@@ -18,10 +19,12 @@ public class CommentService {
 
     public void createComment(CommentDTO commentDTO) {
         User currentUser = userService.getCurrentUser();
-        Article article = articleService.getArticleById(commentDTO.getArticleId());
-        if (article == null) {
+        ArticlesResDTO articleWithComments = articleService.getArticleWithCommentsById(commentDTO.getArticleId());
+        if (articleWithComments == null) {
             throw new IllegalArgumentException("Article not found");
         }
+        Article article = new Article();
+        article.setId(articleWithComments.getId());
         Comment comment = new Comment();
         comment.setContent(commentDTO.getContent());
         comment.setAuthor(currentUser.getUsername());

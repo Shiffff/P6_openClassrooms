@@ -10,7 +10,6 @@ import com.openclassrooms.mddapi.repository.ThemeRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -21,7 +20,6 @@ public class ArticleService {
     private final ArticleRepository articleRepository;
     private final UserService userService;
     private final ThemeRepository themeRepository;
-    private final ThemeService themeService;
     private final CommentRepository commentRepository;
 
     public ArticlesResDTO createArticle(ArticleDTO articleDTO) {
@@ -38,57 +36,52 @@ public class ArticleService {
 
         article = articleRepository.save(article);
 
-        ArticlesResDTO responseDTO = new ArticlesResDTO();
-        responseDTO.setId(article.getId());
-        responseDTO.setTitle(article.getTitle());
-        responseDTO.setContent(article.getContent());
-        responseDTO.setAuthor(article.getAuthor());
-        responseDTO.setThemeId(article.getTheme().getId());
-        responseDTO.setUpdatedAt(article.getUpdated_at().toString());
-        responseDTO.setCreatedAt(article.getCreated_at().toString());
+        return buildArticlesResDTO(article, commentRepository.findByArticleId(article.getId()));
+    }
 
-        return responseDTO;
+    public ArticlesResDTO getArticleWithCommentsById(Long id) {
+        Article article = articleRepository.findById(id).orElse(null);
+        if (article == null) {
+            return null;
+        }
+
+        return buildArticlesResDTO(article, commentRepository.findByArticleId(article.getId()));
     }
-    public Article getArticleById(Long id) {
-        return articleRepository.findById(id).orElse(null);
-    }
-    public List<ArticlesResDTO> getArticlesWithCommentsFromSubscribedThemesByUser() {
+
+    public List<ArticlesResDTO> getArticlesFromSubscribedThemesByUser() {
         User currentUser = userService.getCurrentUserWithSubscriptions();
         List<Theme> subscribedThemes = currentUser.getSubscriptions().stream()
                 .map(UserSubscription::getTheme)
                 .collect(Collectors.toList());
         List<Article> articles = articleRepository.findAllByThemeIn(subscribedThemes);
 
-        List<ArticlesResDTO> articlesWithComments = new ArrayList<>();
-
-        for (Article article : articles) {
-            ArticlesResDTO articleWithComments = new ArticlesResDTO();
-            articleWithComments.setId(article.getId());
-            articleWithComments.setTitle(article.getTitle());
-            articleWithComments.setContent(article.getContent());
-            articleWithComments.setAuthor(article.getAuthor());
-            articleWithComments.setThemeId(article.getTheme().getId());
-            articleWithComments.setUpdatedAt(article.getUpdated_at().toString());
-            articleWithComments.setCreatedAt(article.getCreated_at().toString());
-
-            List<Comment> comments = commentRepository.findByArticleId(article.getId());
-            List<CommentDTO> commentDTOs = new ArrayList<>();
-            for (Comment comment : comments) {
-                CommentDTO commentDTO = new CommentDTO();
-                commentDTO.setContent(comment.getContent());
-                commentDTO.setArticleId(comment.getArticle().getId());
-                commentDTO.setAuthor(comment.getAuthor());
-                commentDTOs.add(commentDTO);
-            }
-            articleWithComments.setComments(commentDTOs);
-
-            articlesWithComments.add(articleWithComments);
-        }
-
-        return articlesWithComments;
+        return articles.stream()
+                .map(article -> buildArticlesResDTO(article, commentRepository.findByArticleId(article.getId())))
+                .collect(Collectors.toList());
     }
 
+    private ArticlesResDTO buildArticlesResDTO(Article article, List<Comment> comments) {
+        ArticlesResDTO articlesResDTO = new ArticlesResDTO();
+        articlesResDTO.setId(article.getId());
+        articlesResDTO.setTitle(article.getTitle());
+        articlesResDTO.setContent(article.getContent());
+        articlesResDTO.setAuthor(article.getAuthor());
+        articlesResDTO.setThemeId(article.getTheme().getId());
+        articlesResDTO.setUpdatedAt(article.getUpdated_at().toString());
+        articlesResDTO.setCreatedAt(article.getCreated_at().toString());
 
+        List<CommentDTO> commentDTOs = comments.stream()
+                .map(comment -> {
+                    CommentDTO commentDTO = new CommentDTO();
+                    commentDTO.setContent(comment.getContent());
+                    commentDTO.setArticleId(comment.getArticle().getId());
+                    commentDTO.setAuthor(comment.getAuthor());
+                    return commentDTO;
+                })
+                .collect(Collectors.toList());
 
+        articlesResDTO.setComments(commentDTOs);
 
+        return articlesResDTO;
+    }
 }
