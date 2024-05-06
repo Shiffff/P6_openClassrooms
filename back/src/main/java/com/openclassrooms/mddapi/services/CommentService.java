@@ -28,4 +28,5 @@ public class CommentService {
         comment.setArticle(article);
         commentRepository.save(comment);
     }
+
 }

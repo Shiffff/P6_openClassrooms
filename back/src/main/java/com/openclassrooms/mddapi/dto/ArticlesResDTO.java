@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
+
 @Getter
 @Setter
 @AllArgsConstructor
@@ -18,4 +20,5 @@ public class ArticlesResDTO {
     private Long themeId;
     private String updatedAt;
     private String createdAt;
+    private List<CommentDTO> comments;
 }

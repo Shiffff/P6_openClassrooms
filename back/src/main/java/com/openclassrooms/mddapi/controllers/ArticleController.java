@@ -4,7 +4,6 @@ import com.openclassrooms.mddapi.dto.ArticleDTO;
 import com.openclassrooms.mddapi.dto.ArticlesResDTO;
 import com.openclassrooms.mddapi.dto.CommentDTO;
 import com.openclassrooms.mddapi.entity.Article;
-import com.openclassrooms.mddapi.entity.Comment;
 import com.openclassrooms.mddapi.services.ArticleService;
 import com.openclassrooms.mddapi.services.CommentService;
 import com.openclassrooms.mddapi.services.UserService;
@@ -40,9 +39,9 @@ public class ArticleController {
         }
     }
     @GetMapping(path = "/articles/subscribed")
-    public ResponseEntity<List<Article>> getArticlesFromSubscribedThemesByUser() {
-        List<Article> articles = articleService.getAllArticlesFromSubscribedThemesByUser();
-        return ResponseEntity.ok(articles);
+    public ResponseEntity<List<ArticlesResDTO>> getArticlesWithCommentsFromSubscribedThemesByUser() {
+        List<ArticlesResDTO> articlesWithComments = articleService.getArticlesWithCommentsFromSubscribedThemesByUser();
+        return ResponseEntity.ok(articlesWithComments);
     }
 
     @PostMapping("/comment")

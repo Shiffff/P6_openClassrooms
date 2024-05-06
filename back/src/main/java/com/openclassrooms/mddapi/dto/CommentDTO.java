@@ -6,4 +6,5 @@ import lombok.Data;
 public class CommentDTO {
     private String content;
     private Long articleId;
+    private String author;
 }
