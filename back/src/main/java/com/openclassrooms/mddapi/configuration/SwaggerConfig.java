@@ -8,8 +8,8 @@ import io.swagger.v3.oas.annotations.security.SecurityScheme;
 
 @OpenAPIDefinition(
         info = @Info(
-                title = "Chatop",
-                description = "Housing rental website"
+                title = "MDD",
+                description = "MDD website"
         )
 )
 
