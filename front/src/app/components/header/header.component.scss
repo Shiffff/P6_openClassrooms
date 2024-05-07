@@ -1,0 +1,33 @@
+@import "../../style/breakpoint.scss";
+
+header {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    height: 10vh;
+    background-color: white;
+    border-bottom: 1px solid black;
+    overflow: hidden;
+    padding-inline: 5em;
+    justify-content: space-between;
+    ul {
+        display: flex;
+        align-items: center;
+        gap: 2em;
+    }
+
+    .logoPic {
+        width: 10em;
+    }
+
+    .profilePicture {
+        width: 3em;
+    }
+    ul {
+        display: flex;
+    }
+
+    @include lg {
+        display: none;
+    }
+}

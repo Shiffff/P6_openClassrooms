@@ -1,0 +1,30 @@
+<div class="arrowContainer" routerLink="/">
+    <img src="/assets/icons/arrow.svg" alt="arrow" />
+</div>
+<div class="login-form-container">
+    <div class="formContainer">
+        <img src="/assets/pictures/logo_p6.png" alt="Logo mmd" />
+        <h2>Se connecter</h2>
+        <form>
+            <label>E-mail ou nom d'utilisateur</label>
+            <input type="text" id="emailOrUsername" [formControl]="emailOrUsername" />
+            <label>Mot de passe</label>
+            <input type="text" id="password" [formControl]="password" />
+        </form>
+        @if (loading) {
+            <div class="loader-container">
+                <div class="loader"></div>
+            </div>
+        } @else {
+            <div class="btn-container">
+                <button (click)="onSubmitForm()">Se connecter</button>
+            </div>
+        }
+        @if (ErrorMsg == 409) {
+            <p class="errMsg">Paire identifiant/mot de passe est incorrecte</p>
+        }
+        @if (requestRes$ | async; as res) {
+            <h3>Redirect</h3>
+        }
+    </div>
+</div>

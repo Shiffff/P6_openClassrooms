@@ -89,8 +89,6 @@
                 if (password.length() < 8) {
                     return false;
                 }
-
-
                 boolean hasUpperCase = false;
                 boolean hasLowerCase = false;
                 boolean hasDigit = false;

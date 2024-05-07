@@ -1,0 +1,83 @@
+@import "../../style/breakpoint.scss";
+@import "../../style/variables.scss";
+
+.register-form-container {
+    height: 90vh;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    img {
+        width: 20em;
+        display: none;
+        @include lg {
+            display: block;
+        }
+    }
+    .formContainer {
+        display: flex;
+        gap: 2em;
+        flex-direction: column;
+        h2 {
+            font-size: 3em;
+            font-weight: 300;
+            text-align: center;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            input {
+                height: 3em;
+                border-radius: $base-radius;
+                margin-bottom: 1em;
+                border: 1px solid black;
+                transition: 200ms;
+                padding: 1em;
+            }
+        }
+        .btn-container {
+            text-align: center;
+            button {
+                width: 15em;
+                height: 4em;
+                font-weight: 500;
+                font-size: 1.1em;
+                background-color: $base-color;
+                border-radius: $base-radius;
+                transition: 200ms;
+                border: none;
+                color: white;
+                cursor: pointer;
+                &:hover {
+                    background-color: white;
+                    color: $base-color;
+                    border: 1px solid $base-color;
+                }
+            }
+        }
+    }
+}
+.arrowContainer {
+    position: absolute;
+    left: 3em;
+    top: 10em;
+    z-index: 10;
+    cursor: pointer;
+
+    img {
+        width: 8em;
+        cursor: pointer;
+        transition: 200ms;
+        &:hover {
+            transform: scale(1.1);
+        }
+    }
+    @include lg {
+        top: 2em;
+    }
+}
+.loader-container {
+    display: flex;
+    justify-content: center;
+}

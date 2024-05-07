@@ -1,0 +1,39 @@
+@import "../../style/breakpoint.scss";
+@import "../../style/variables.scss";
+
+.home-container {
+    height: 100vh;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    .home-button-container {
+        display: flex;
+        justify-content: space-around;
+        button {
+            width: 15em;
+            height: 4em;
+            font-weight: 500;
+            font-size: 1.1em;
+            background-color: white;
+            border-radius: $base-radius;
+            transition: 200ms;
+            cursor: pointer;
+            &:hover {
+                background-color: $base-color;
+                color: white;
+                border: none;
+            }
+        }
+        @include lg {
+            align-items: center;
+            flex-direction: column;
+            gap: 3em;
+        }
+    }
+    img {
+        @include lg {
+            width: 25em;
+        }
+    }
+}

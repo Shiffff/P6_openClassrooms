@@ -1,6 +1,5 @@
 package com.openclassrooms.mddapi.configuration;
 
-
 import com.openclassrooms.mddapi.services.JWTService;
 import com.openclassrooms.mddapi.services.UserService;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -19,20 +18,17 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-
-
 @Slf4j
 @Service
-public class JwtFilter  extends OncePerRequestFilter {
+public class JwtFilter extends OncePerRequestFilter {
 
-    private UserService userService;
-    private JWTService jwtService;
-    public JwtFilter(UserService userService, JWTService jwtService ) {
+    private final UserService userService;
+    private final JWTService jwtService;
+
+    public JwtFilter(UserService userService, JWTService jwtService) {
         this.userService = userService;
         this.jwtService = jwtService;
     }
-
-
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
@@ -40,23 +36,23 @@ public class JwtFilter  extends OncePerRequestFilter {
         String username = null;
 
         final String authorization = request.getHeader("Authorization");
+
         if (authorization != null && authorization.startsWith("Bearer ")) {
             token = authorization.substring(7);
             try {
                 username = jwtService.extractUsername(token);
-            } catch (ExpiredJwtException | UnsupportedJwtException | MalformedJwtException  | IllegalArgumentException e) {
-                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-                response.getWriter().write("Erreur de jeton JWT : " + e.getMessage());
-                return;
+            } catch (ExpiredJwtException | UnsupportedJwtException | MalformedJwtException | IllegalArgumentException e) {
+                log.error("Erreur de jeton JWT : {}", e.getMessage());
             }
         }
+
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
             UserDetails userDetails = userService.loadUserByUsername(username);
             UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
             SecurityContextHolder.getContext().setAuthentication(authenticationToken);
             log.info(String.valueOf(SecurityContextHolder.getContext()));
         }
+
         filterChain.doFilter(request, response);
     }
-
 }
