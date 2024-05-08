@@ -1,9 +1,13 @@
-import { Injectable } from '@angular/core';
+import { HttpClient } from "@angular/common/http";
+import { Injectable, inject } from "@angular/core";
 
 @Injectable({
-  providedIn: 'root'
+    providedIn: "root",
 })
 export class ArticlesService {
+    private http = inject(HttpClient);
 
-  constructor() { }
+    getSubscribedArticles() {
+        return this.http.get<any>("/api/themes/subscribed");
+    }
 }
