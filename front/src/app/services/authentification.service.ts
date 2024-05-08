@@ -39,4 +39,8 @@ export class AuthentificationService {
         this.isLoggedSubject.next(this.getToken() !== null);
         return this.isLoggedSubject.asObservable();
     }
+
+    getUserInfo() {
+        return this.http.get<any>("/api/auth/me");
+    }
 }

@@ -17,7 +17,7 @@ export class HeaderComponent {
     isLogged$ = this.authService.isLoggedIn();
 
     isPageExcluded(): boolean {
-        const excludedRoutes = ["/"];
+        const excludedRoutes = ["/home"];
 
         return excludedRoutes.includes(this.router.url);
     }

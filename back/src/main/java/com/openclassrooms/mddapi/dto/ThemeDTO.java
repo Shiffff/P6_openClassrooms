@@ -20,6 +20,7 @@ public class ThemeDTO {
     private String description;
     private Date created_at;
     private LocalDateTime updated_at;
+    private boolean subscribed;
 
     public ThemeDTO(Theme theme) {
         this.id = theme.getId();

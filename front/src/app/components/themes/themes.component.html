@@ -1,1 +1,33 @@
-<p>themes works!</p>
+@if (themes$ | async; as themes) {
+    @if (themes[0]) {
+        <div class="themes-container">
+            @for (theme of themes; track theme) {
+                <div class="theme-item">
+                    <li>
+                        <h3>
+                            {{ theme.title }}
+                        </h3>
+                    </li>
+                    <li>
+                        <p>
+                            {{ theme.description }}
+                        </p>
+                    </li>
+                    <div class="btn-container">
+                        @if (theme.subscribed) {
+                            <button (click)="unsubscribe(theme.id)">Se désabonner</button>
+                        } @else {
+                            <button (click)="subscribe(theme.id)">S'abonner</button>
+                        }
+                    </div>
+                </div>
+            }
+        </div>
+    } @else {
+        Pas de thème
+    }
+} @else {
+    <div class="loader-container">
+        <div class="loader"></div>
+    </div>
+}

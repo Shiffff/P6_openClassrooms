@@ -20,8 +20,8 @@ export class LoginComponent {
     loading = false;
     requestRes$?: Observable<any>;
 
-    emailOrUsername = new FormControl<string>("", [Validators.required]);
-    password = new FormControl<string>("", [Validators.required]);
+    emailOrUsername = new FormControl<string>("testdadzdagzdedazd121@test.fr", [Validators.required]);
+    password = new FormControl<string>("Teszfzefzefze1cvdsvs3!", [Validators.required]);
 
     form = new FormGroup({
         emailOrUsername: this.emailOrUsername,
@@ -43,7 +43,7 @@ export class LoginComponent {
             }),
             map((res) => {
                 this.authService.setToken(res.token);
-                this.router.navigate(["/articles"]);
+                this.router.navigate(["/"]);
             }),
             finalize(() => {
                 this.loading = false;

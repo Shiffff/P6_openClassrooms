@@ -1,12 +1,41 @@
-import { Component } from '@angular/core';
+import { Component, inject } from "@angular/core";
+import { ThemesService } from "../../services/themes.service";
+import { CommonModule } from "@angular/common";
+import { tap } from "rxjs";
 
 @Component({
-  selector: 'app-themes',
-  standalone: true,
-  imports: [],
-  templateUrl: './themes.component.html',
-  styleUrl: './themes.component.scss'
+    selector: "app-themes",
+    standalone: true,
+    imports: [CommonModule],
+    templateUrl: "./themes.component.html",
+    styleUrl: "./themes.component.scss",
 })
 export class ThemesComponent {
+    private themesService = inject(ThemesService);
 
+    themes$ = this.themesService.getThemes();
+
+    subscribe(themeId: any) {
+        console.log("Subscribing to theme with ID:", themeId);
+        this.themesService
+            .themeSubscribe(themeId)
+            .pipe(
+                tap(() => {
+                    this.themes$ = this.themesService.getThemes();
+                }),
+            )
+            .subscribe();
+    }
+
+    unsubscribe(themeId: any) {
+        console.log("Subscribing to theme with ID:", themeId);
+        this.themesService
+            .themeUnsubscribe(themeId)
+            .pipe(
+                tap(() => {
+                    this.themes$ = this.themesService.getThemes();
+                }),
+            )
+            .subscribe();
+    }
 }

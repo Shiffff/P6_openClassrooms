@@ -9,12 +9,12 @@ import { ThemesComponent } from "./components/themes/themes.component";
 import { ProfilComponent } from "./components/profil/profil.component";
 
 export const routes: Routes = [
-    { path: "", component: HomeComponent },
+    { path: "home", component: HomeComponent },
 
     { path: "login", component: LoginComponent },
     { path: "register", component: RegisterComponent },
 
-    { path: "articles", component: ArticlesComponent, canActivate: [authGuard] },
+    { path: "", component: ArticlesComponent, canActivate: [authGuard] },
     { path: "themes", component: ThemesComponent, canActivate: [authGuard] },
     { path: "profil", component: ProfilComponent, canActivate: [authGuard] },
 

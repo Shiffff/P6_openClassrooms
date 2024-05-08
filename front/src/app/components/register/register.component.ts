@@ -46,7 +46,7 @@ export class RegisterComponent {
             map((res) => {
                 console.log(res);
                 localStorage.setItem("mddToken", res.token);
-                this.router.navigate(["/articles"]);
+                this.router.navigate(["/"]);
             }),
             finalize(() => {
                 this.loading = false;
