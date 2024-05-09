@@ -8,8 +8,14 @@
         <form>
             <label>E-mail ou nom d'utilisateur</label>
             <input type="text" id="emailOrUsername" [formControl]="emailOrUsername" />
+            @if (emailOrUsername.errors?.["emailOrUsername"] && emailOrUsername.touched) {
+                <p class="errMsg">Veuillez saisir une addresse email ou un username valide</p>
+            }
             <label>Mot de passe</label>
-            <input type="text" id="password" [formControl]="password" />
+            <input type="password" id="password" [formControl]="password" />
+            @if (password.errors?.["required"] && password.touched) {
+                <p class="errMsg">Veuillez saisir un password</p>
+            }
         </form>
         @if (loading) {
             <div class="loader-container">
@@ -20,7 +26,7 @@
                 <button (click)="onSubmitForm()">Se connecter</button>
             </div>
         }
-        @if (ErrorMsg == 409) {
+        @if (ErrorMsg) {
             <p class="errMsg">Paire identifiant/mot de passe est incorrecte</p>
         }
         @if (requestRes$ | async; as res) {

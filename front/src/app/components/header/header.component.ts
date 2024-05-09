@@ -13,6 +13,7 @@ import { AuthentificationService } from "../../services/authentification.service
 export class HeaderComponent {
     router = inject(Router);
     authService = inject(AuthentificationService);
+    mobileMenuStatus = true;
 
     isLogged$ = this.authService.isLoggedIn();
 
@@ -20,5 +21,11 @@ export class HeaderComponent {
         const excludedRoutes = ["/home"];
 
         return excludedRoutes.includes(this.router.url);
+    }
+    openMobileMenu() {
+        this.mobileMenuStatus = !this.mobileMenuStatus;
+    }
+    closeMobileMenu() {
+        this.mobileMenuStatus = false;
     }
 }

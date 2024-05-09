@@ -8,10 +8,28 @@
         <form>
             <label>Nom d'utilisateur</label>
             <input type="text" id="username" [formControl]="username" />
+            @if (username.errors?.["required"] && username.touched) {
+                <p class="errMsg">Veuillez saisir votre username</p>
+            }
             <label>Adresse e-mail</label>
             <input type="text" id="email" [formControl]="email" />
+            @if (email.errors?.["required"] && email.touched) {
+                <p class="errMsg">Veuillez saisir votre email</p>
+            }
+            @if (email.errors?.["email"] && email.touched) {
+                <p class="errMsg">Veuillez saisir une addresse email valide</p>
+            }
             <label>Mot de passe</label>
             <input type="text" id="password" [formControl]="password" />
+            @if (password.errors?.["required"] && password.touched) {
+                <p class="errMsg">Veuillez saisir un password</p>
+            }
+            @if (password.errors?.["passwordControl"] && password.touched) {
+                <p class="errMsg"
+                    >Le mot de passe doit contenir au moins 8 caractères, dont au moins un chiffre, une lettre minuscule, une lettre majuscule et un
+                    caractère spécial.</p
+                >
+            }
         </form>
         @if (loading) {
             <div class="loader-container">
@@ -22,8 +40,8 @@
                 <button (click)="onSubmitForm()">S'inscrire</button>
             </div>
         }
-        @if (ErrorMsg == 409) {
-            <p class="errMsg">Paire identifiant/mot de passe est incorrecte</p>
+        @if (ErrorMsg) {
+            <p class="errMsg">{{ ErrorMsg }}</p>
         }
         @if (requestRes$ | async; as res) {
             <h3>Redirect</h3>

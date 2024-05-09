@@ -31,3 +31,63 @@ header {
         display: none;
     }
 }
+
+.mobile-menu-container {
+    border-bottom: 1px solid black;
+    height: 5vh;
+    display: none;
+    @include lg {
+        display: block;
+    }
+    .mobile-menu-content {
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 30vh;
+        height: 100vh;
+        background-color: white;
+        z-index: 20;
+        border-bottom: 1px solid black;
+        border: 2px solid black;
+        border-right: none;
+        .closeIcn {
+            width: 2em;
+            position: absolute;
+            top: 1em;
+            right: 1em;
+        }
+        .profilePicture {
+            width: 2em;
+            position: absolute;
+            bottom: 1em;
+            right: 1em;
+        }
+        ul {
+            margin-top: 20vh;
+            font-size: 3em;
+            position: absolute;
+            right: 0;
+        }
+        li {
+            cursor: pointer;
+        }
+    }
+
+    .mobile-menu {
+        display: none;
+        position: absolute;
+        top: 1em;
+        right: 1em;
+        z-index: 10;
+        cursor: pointer;
+        img {
+            width: 2em;
+        }
+        @include lg {
+            display: block;
+        }
+    }
+    img {
+        width: 8em;
+    }
+}

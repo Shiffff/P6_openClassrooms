@@ -1,6 +1,9 @@
 <div class="topcontainer">
     <button routerLink="/new-article">Créer un articles</button>
-    <p>Trier par :</p>
+    <p class="sort-container"
+        >Trier par
+        <img src="/assets/icons/littleArrow.svg" alt="arrow" />
+    </p>
 </div>
 @if (articles$ | async; as articles) {
     @if (articles[0]) {

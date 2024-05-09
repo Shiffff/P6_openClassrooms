@@ -1,3 +1,6 @@
+<div class="arrowContainer" routerLink="/">
+    <img src="/assets/icons/arrow.svg" alt="arrow" />
+</div>
 <div class="new-article-form-container">
     <div class="formContainer">
         <h2>Créer un nouvel articles</h2>
@@ -14,7 +17,7 @@
                 }
             </select>
             <input type="text" id="title" placeholder="Titre de l'article" [formControl]="title" />
-            <input type="text" id="content" placeholder="Contenu de l'article" [formControl]="content" />
+            <textarea type="text" id="content" placeholder="Contenu de l'article" [formControl]="content"></textarea>
         </form>
         @if (loading) {
             <div class="loader-container">

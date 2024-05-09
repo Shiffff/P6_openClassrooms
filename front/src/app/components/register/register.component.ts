@@ -1,9 +1,10 @@
 import { CommonModule } from "@angular/common";
 import { Component, inject } from "@angular/core";
-import { FormControl, FormGroup, ReactiveFormsModule, Validators } from "@angular/forms";
+import { AbstractControl, FormControl, FormGroup, ReactiveFormsModule, Validators } from "@angular/forms";
 import { Observable, finalize, map, tap } from "rxjs";
 import { AuthentificationService } from "../../services/authentification.service";
 import { Router, RouterLink } from "@angular/router";
+import { authRes } from "../../models/authModel";
 
 @Component({
     selector: "app-register",
@@ -15,14 +16,14 @@ import { Router, RouterLink } from "@angular/router";
 export class RegisterComponent {
     private authService = inject(AuthentificationService);
     private router = inject(Router);
-    ErrorMsg!: number | null;
+    ErrorMsg: number | null = null;
 
     loading = false;
-    requestRes$?: Observable<any>;
+    requestRes$?: Observable<authRes>;
 
-    email = new FormControl<string>("", [Validators.required]);
+    email = new FormControl<string>("", [Validators.required, Validators.email]);
     username = new FormControl<string>("", [Validators.required]);
-    password = new FormControl<string>("", [Validators.required]);
+    password = new FormControl<string>("", [Validators.required, this.passwordControl]);
 
     form = new FormGroup({
         email: this.email,
@@ -30,23 +31,35 @@ export class RegisterComponent {
         password: this.password,
     });
 
+    passwordControl(control: AbstractControl) {
+        console.log(control);
+        const passwordRegexp = /^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=!])[\w@#$%^&+=!]{8,}$/.test(
+            control.value,
+        );
+        return passwordRegexp ? null : { passwordControl: true };
+    }
+
     onSubmitForm() {
-        this.ErrorMsg = null;
-        this.form.markAsTouched();
+        this.form.markAllAsTouched();
         const formvalue = this.form.value;
-        console.log(formvalue);
+        if (!this.form.valid || !this.form.dirty || !formvalue) return;
+        this.ErrorMsg = null;
         this.loading = true;
         this.form.disable();
         this.requestRes$ = this.authService.register(formvalue).pipe(
+            tap((data) => {
+                console.log("err:", data);
+            }),
             tap({
                 error: (err) => {
-                    this.ErrorMsg = err.error.code;
+                    this.ErrorMsg = err.error.message;
                 },
             }),
             map((res) => {
                 console.log(res);
-                localStorage.setItem("mddToken", res.token);
+                this.authService.setToken(res.token);
                 this.router.navigate(["/"]);
+                return res;
             }),
             finalize(() => {
                 this.loading = false;

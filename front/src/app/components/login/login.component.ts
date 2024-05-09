@@ -4,6 +4,7 @@ import { FormControl, FormGroup, ReactiveFormsModule, Validators } from "@angula
 import { Observable, finalize, map, tap } from "rxjs";
 import { AuthentificationService } from "../../services/authentification.service";
 import { Router, RouterLink } from "@angular/router";
+import { authRes } from "../../models/authModel";
 
 @Component({
     selector: "app-login",
@@ -15,13 +16,13 @@ import { Router, RouterLink } from "@angular/router";
 export class LoginComponent {
     private authService = inject(AuthentificationService);
     private router = inject(Router);
-    ErrorMsg!: number | null;
+    ErrorMsg: number | null = null;
 
     loading = false;
-    requestRes$?: Observable<any>;
+    requestRes$?: Observable<authRes>;
 
-    emailOrUsername = new FormControl<string>("testdadzdagzdedazd121@test.fr", [Validators.required]);
-    password = new FormControl<string>("Teszfzefzefze1cvdsvs3!", [Validators.required]);
+    emailOrUsername = new FormControl<string>("", [Validators.required]);
+    password = new FormControl<string>("", [Validators.required]);
 
     form = new FormGroup({
         emailOrUsername: this.emailOrUsername,
@@ -29,9 +30,10 @@ export class LoginComponent {
     });
 
     onSubmitForm() {
+        this.form.markAllAsTouched();
         this.ErrorMsg = null;
-        this.form.markAsTouched();
         const formvalue = this.form.value;
+        if (!this.form.valid || !this.form.dirty || !formvalue) return;
         console.log(formvalue);
         this.loading = true;
         this.form.disable();
@@ -44,6 +46,7 @@ export class LoginComponent {
             map((res) => {
                 this.authService.setToken(res.token);
                 this.router.navigate(["/"]);
+                return res;
             }),
             finalize(() => {
                 this.loading = false;

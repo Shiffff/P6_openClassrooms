@@ -2,9 +2,13 @@
 @import "../../style/variables.scss";
 
 .profil-container {
-    h3 {
+    .title-page {
         text-align: center;
         margin-top: 3vh;
+    }
+    h2 {
+        text-align: center;
+        margin-top: 1em;
     }
     .info-user-container {
         display: flex;
@@ -69,12 +73,12 @@
     justify-content: center;
 
     .theme-item {
-        background-color: lightgray;
+        background-color: rgb(228, 228, 228);
         width: 25em;
         height: auto;
-        min-height: 12em;
+        min-height: 10em;
         border-radius: $base-radius;
-        padding: 2em;
+        padding: 1em;
         overflow: hidden;
         text-overflow: ellipsis;
     }

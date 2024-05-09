@@ -1,5 +1,5 @@
 <div class="profil-container">
-    <h3>Profil utilisateur</h3>
+    <h3 class="title-page">Profil utilisateur</h3>
     <div class="info-user-container">
         @if (userInfo$ | async; as res) {
             <form>
@@ -27,6 +27,7 @@
     <div class="hr-container">
         <hr />
     </div>
+    <h2>Abonnements</h2>
     <div class="themes-container">
         @if (themes$ | async; as themes) {
             @for (theme of themes; track theme) {

@@ -16,3 +16,24 @@
         </header>
     }
 }
+@if (!isPageExcluded()) {
+    @if (isLogged$ | async; as isLogged) {
+        <div class="mobile-menu-container">
+            <img class="logoPic" src="/assets/pictures/logo_p6.png" alt="Logo mmd" />
+
+            <div class="mobile-menu">
+                <img src="/assets/icons/burger.svg" alt="burger Menu" (click)="openMobileMenu()" />
+            </div>
+            @if (mobileMenuStatus) {
+                <div class="mobile-menu-content">
+                    <img class="closeIcn" src="/assets/icons/close.svg" alt="Logo mmd" (click)="openMobileMenu()" />
+                    <ul>
+                        <li (click)="closeMobileMenu()" routerLink="/">Articles</li>
+                        <li (click)="closeMobileMenu()" routerLink="/themes">Thèmes</li>
+                    </ul>
+                    <img routerLink="/profil" class="profilePicture" src="/assets/icons/profile.svg" alt="profile" />
+                </div>
+            }
+        </div>
+    }
+}

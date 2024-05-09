@@ -3,43 +3,71 @@
 
 .new-article-form-container {
     display: flex;
-    gap: 2em;
-    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
     h2 {
-        font-size: 3em;
-        font-weight: 300;
         text-align: center;
+        margin-bottom: 3em;
+        margin-top: 2em;
     }
     form {
         display: flex;
         flex-direction: column;
-        input {
-            height: 3em;
-            border-radius: $base-radius;
-            margin-bottom: 1em;
-            border: 1px solid black;
-            transition: 200ms;
-            padding: 1em;
+        gap: 1em;
+    }
+    select {
+        height: 3em;
+    }
+    input {
+        height: 3em;
+    }
+    button {
+        width: 10em;
+        height: 2.5em;
+        font-weight: 500;
+        font-size: 1.1em;
+        background-color: $base-color;
+        border-radius: $base-radius;
+        transition: 200ms;
+        border: none;
+        color: white;
+        cursor: pointer;
+        margin-top: 0.8em;
+
+        &:hover {
+            background-color: white;
+            color: $base-color;
+            border: 1px solid $base-color;
         }
     }
     .btn-container {
-        text-align: center;
-        button {
-            width: 15em;
-            height: 4em;
-            font-weight: 500;
-            font-size: 1.1em;
-            background-color: $base-color;
-            border-radius: $base-radius;
-            transition: 200ms;
-            border: none;
-            color: white;
-            cursor: pointer;
-            &:hover {
-                background-color: white;
-                color: $base-color;
-                border: 1px solid $base-color;
-            }
+        display: flex;
+        justify-content: center;
+    }
+    #content {
+        padding: 1em;
+        padding-bottom: 5em;
+        word-wrap: break-word;
+        word-break: break-all;
+    }
+}
+.arrowContainer {
+    position: absolute;
+    left: 3em;
+    top: 10em;
+    z-index: 10;
+    cursor: pointer;
+
+    img {
+        width: 8em;
+        cursor: pointer;
+        transition: 200ms;
+        &:hover {
+            transform: scale(1.1);
         }
+    }
+    @include lg {
+        top: 2em;
     }
 }
