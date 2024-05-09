@@ -67,6 +67,7 @@ public class ArticleService {
         articlesResDTO.setContent(article.getContent());
         articlesResDTO.setAuthor(article.getAuthor());
         articlesResDTO.setThemeId(article.getTheme().getId());
+        articlesResDTO.setThemeName(article.getTheme().getTitle());
         articlesResDTO.setUpdatedAt(article.getUpdated_at().toString());
         articlesResDTO.setCreatedAt(article.getCreated_at().toString());
 
@@ -84,4 +85,5 @@ public class ArticleService {
 
         return articlesResDTO;
     }
+
 }

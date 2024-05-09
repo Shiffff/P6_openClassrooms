@@ -16,7 +16,6 @@ export class ThemesComponent {
     themes$ = this.themesService.getThemes();
 
     subscribe(themeId: any) {
-        console.log("Subscribing to theme with ID:", themeId);
         this.themesService
             .themeSubscribe(themeId)
             .pipe(
@@ -28,7 +27,6 @@ export class ThemesComponent {
     }
 
     unsubscribe(themeId: any) {
-        console.log("Subscribing to theme with ID:", themeId);
         this.themesService
             .themeUnsubscribe(themeId)
             .pipe(

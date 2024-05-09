@@ -17,7 +17,7 @@ public class CommentService {
     private final UserService userService;
     private final ArticleService articleService;
 
-    public void createComment(CommentDTO commentDTO) {
+    public CommentDTO createComment(CommentDTO commentDTO) {
         User currentUser = userService.getCurrentUser();
         ArticlesResDTO articleWithComments = articleService.getArticleWithCommentsById(commentDTO.getArticleId());
         if (articleWithComments == null) {
@@ -29,7 +29,14 @@ public class CommentService {
         comment.setContent(commentDTO.getContent());
         comment.setAuthor(currentUser.getUsername());
         comment.setArticle(article);
-        commentRepository.save(comment);
+        Comment savedComment = commentRepository.save(comment);
+
+        CommentDTO savedCommentDTO = new CommentDTO();
+        savedCommentDTO.setContent(savedComment.getContent());
+        savedCommentDTO.setArticleId(savedComment.getArticle().getId());
+        savedCommentDTO.setAuthor(savedComment.getAuthor());
+        return savedCommentDTO;
     }
+
 
 }

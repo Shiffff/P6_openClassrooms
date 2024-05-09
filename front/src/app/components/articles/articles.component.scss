@@ -1,0 +1,51 @@
+@import "../../style/breakpoint.scss";
+@import "../../style/variables.scss";
+
+.topcontainer {
+    display: flex;
+    justify-content: space-between;
+    padding-inline: 10em;
+    margin-top: 3em;
+    margin-bottom: 3em;
+    button {
+        width: 10em;
+        height: 2.5em;
+        font-weight: 500;
+        font-size: 1.1em;
+        background-color: $base-color;
+        border-radius: $base-radius;
+        transition: 200ms;
+        border: none;
+        color: white;
+        cursor: pointer;
+        margin-top: 0.8em;
+
+        &:hover {
+            background-color: white;
+            color: $base-color;
+            border: 1px solid $base-color;
+        }
+    }
+}
+.article-container {
+    display: flex;
+    gap: 3em;
+    flex-wrap: wrap;
+    justify-content: center;
+    .article-item {
+        background-color: lightgray;
+        width: 40em;
+        height: 10em;
+        border-radius: $base-radius;
+        padding: 1em;
+        transition: 200ms;
+        cursor: pointer;
+        &:hover {
+            transform: scale(1.02);
+        }
+    }
+    .authorDateContainer {
+        display: flex;
+        justify-content: space-between;
+    }
+}

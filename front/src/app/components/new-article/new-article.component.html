@@ -1,0 +1,32 @@
+<div class="new-article-form-container">
+    <div class="formContainer">
+        <h2>Créer un nouvel articles</h2>
+        <form>
+            <select placeholder="Sélectionner un thème" [formControl]="themeId">
+                @if (themes$ | async; as themes) {
+                    <option value="" disabled>Séléctionner un thème</option>
+
+                    @if (themes[0]) {
+                        @for (theme of themes; track theme) {
+                            <option [ngValue]="theme.id">{{ theme.title }}</option>
+                        }
+                    }
+                }
+            </select>
+            <input type="text" id="title" placeholder="Titre de l'article" [formControl]="title" />
+            <input type="text" id="content" placeholder="Contenu de l'article" [formControl]="content" />
+        </form>
+        @if (loading) {
+            <div class="loader-container">
+                <div class="loader"></div>
+            </div>
+        } @else {
+            <div class="btn-container">
+                <button (click)="onSubmitForm()">Créer</button>
+            </div>
+        }
+    </div>
+    @if (requestRes$ | async; as res) {
+        <h3>created</h3>
+    }
+</div>

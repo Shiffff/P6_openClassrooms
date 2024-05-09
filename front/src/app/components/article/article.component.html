@@ -1,0 +1,19 @@
+@if (article$ | async; as article) {
+    <h3>{{ article.title }}</h3>
+    <p>{{ article.content }}</p>
+    <hr />
+    <div class="comment-container">
+        @for (comment of article.comments; track comment) {
+            <div class="comment-item">
+                <p>{{ comment.author }}</p>
+                <p>{{ comment.content }}</p>
+            </div>
+        }
+    </div>
+} @else {
+    <div class="loader-container">
+        <div class="loader"></div>
+    </div>
+}
+<input type="text" id="content" placeholder="Commentaire" [formControl]="comment" />
+<button (click)="onSubmitForm()">send</button>

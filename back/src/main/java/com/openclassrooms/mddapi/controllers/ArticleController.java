@@ -33,6 +33,7 @@ public class ArticleController {
         return articleWithComments != null ? ResponseEntity.ok(articleWithComments) : ResponseEntity.notFound().build();
     }
 
+
     @GetMapping(path = "/articles/subscribed")
     public ResponseEntity<List<ArticlesResDTO>> getArticlesWithCommentsFromSubscribedThemesByUser() {
         List<ArticlesResDTO> articlesWithComments = articleService.getArticlesFromSubscribedThemesByUser();
@@ -40,9 +41,10 @@ public class ArticleController {
     }
 
     @PostMapping("/comment")
-    public ResponseEntity<String> createComment(@RequestBody CommentDTO commentDTO) {
-        commentService.createComment(commentDTO);
-        return ResponseEntity.ok("Votre commentaire a été enregistré avec succès.");
+    public ResponseEntity<CommentDTO> createComment(@RequestBody CommentDTO commentDTO) {
+        CommentDTO createdComment = commentService.createComment(commentDTO);
+        return ResponseEntity.status(HttpStatus.CREATED).body(createdComment);
     }
+
 }
 

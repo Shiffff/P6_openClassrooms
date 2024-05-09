@@ -1,7 +1,7 @@
 import { HttpErrorResponse, HttpInterceptorFn } from "@angular/common/http";
 import { inject } from "@angular/core";
 import { AuthentificationService } from "../services/authentification.service";
-import { catchError } from "rxjs";
+import { catchError, throwError } from "rxjs";
 
 export const customInterceptor: HttpInterceptorFn = (req, next) => {
     const authService = inject(AuthentificationService);
@@ -15,8 +15,10 @@ export const customInterceptor: HttpInterceptorFn = (req, next) => {
 
     return next(cloneRequest).pipe(
         catchError((err: HttpErrorResponse) => {
-            console.log(err);
-            throw err;
+            if (err.status === 403) {
+                authService.logout();
+            }
+            return throwError(err);
         }),
     );
 };
