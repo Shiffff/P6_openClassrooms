@@ -1,7 +1,7 @@
 import { CommonModule } from "@angular/common";
 import { Component, inject } from "@angular/core";
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from "@angular/forms";
-import { Observable, finalize, map, tap } from "rxjs";
+import { Observable, catchError, finalize, map, tap, throwError } from "rxjs";
 import { AuthentificationService } from "../../services/authentification.service";
 import { Router, RouterLink } from "@angular/router";
 import { authRes, loginInfo } from "../../models/authModel";
@@ -16,7 +16,7 @@ import { authRes, loginInfo } from "../../models/authModel";
 export class LoginComponent {
     private authService = inject(AuthentificationService);
     private router = inject(Router);
-    ErrorMsg: number | null = null;
+    ErrorMsg: string | null = null;
 
     loading = false;
     requestRes$?: Observable<authRes>;
@@ -42,6 +42,10 @@ export class LoginComponent {
                 error: (err) => {
                     this.ErrorMsg = err.error.code;
                 },
+            }),
+            catchError(() => {
+                this.ErrorMsg = "une erreur est suvernue";
+                return throwError("Erreur serveur");
             }),
             map((res) => {
                 this.authService.setToken(res.token);

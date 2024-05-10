@@ -1,7 +1,7 @@
 import { CommonModule } from "@angular/common";
 import { Component, inject } from "@angular/core";
 import { AbstractControl, FormControl, FormGroup, ReactiveFormsModule, Validators } from "@angular/forms";
-import { Observable, finalize, map, tap } from "rxjs";
+import { Observable, catchError, finalize, map, tap, throwError } from "rxjs";
 import { AuthentificationService } from "../../services/authentification.service";
 import { Router, RouterLink } from "@angular/router";
 import { authRes, registerInfo } from "../../models/authModel";
@@ -16,7 +16,7 @@ import { authRes, registerInfo } from "../../models/authModel";
 export class RegisterComponent {
     private authService = inject(AuthentificationService);
     private router = inject(Router);
-    ErrorMsg: number | null = null;
+    ErrorMsg: string | null = null;
 
     loading = false;
     requestRes$?: Observable<authRes>;
@@ -52,8 +52,16 @@ export class RegisterComponent {
             }),
             tap({
                 error: (err) => {
-                    this.ErrorMsg = err.error.message;
+                    if (err.error.message) {
+                        this.ErrorMsg = err.error.message;
+                    } else {
+                        this.ErrorMsg = "une erreur est suvernue";
+                    }
                 },
+            }),
+            catchError(() => {
+                this.ErrorMsg = "une erreur est suvernue";
+                return throwError("Erreur serveur");
             }),
             map((res) => {
                 console.log(res);
