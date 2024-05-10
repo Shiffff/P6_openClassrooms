@@ -9,6 +9,7 @@ export class UserService {
     private http = inject(HttpClient);
 
     userInfo(formValue: any): Observable<any> {
+        console.log(formValue);
         return this.http.put<any>("/api/auth/me", formValue);
     }
 }

@@ -4,7 +4,7 @@ import { AbstractControl, FormControl, FormGroup, ReactiveFormsModule, Validator
 import { Observable, finalize, map, tap } from "rxjs";
 import { AuthentificationService } from "../../services/authentification.service";
 import { Router, RouterLink } from "@angular/router";
-import { authRes } from "../../models/authModel";
+import { authRes, registerInfo } from "../../models/authModel";
 
 @Component({
     selector: "app-register",
@@ -41,7 +41,7 @@ export class RegisterComponent {
 
     onSubmitForm() {
         this.form.markAllAsTouched();
-        const formvalue = this.form.value;
+        const formvalue = this.form.value as registerInfo;
         if (!this.form.valid || !this.form.dirty || !formvalue) return;
         this.ErrorMsg = null;
         this.loading = true;

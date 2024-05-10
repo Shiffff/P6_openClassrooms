@@ -1,7 +1,8 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable, inject } from "@angular/core";
 import { Router } from "@angular/router";
-import { BehaviorSubject, Observable } from "rxjs";
+import { BehaviorSubject, Observable, tap } from "rxjs";
+import { registerInfo, loginInfo, authRes, userInfo } from "../models/authModel";
 
 @Injectable({
     providedIn: "root",
@@ -15,11 +16,14 @@ export class AuthentificationService {
         this.isLoggedSubject.next(this.getToken() !== null);
     }
 
-    login(formValue: any): Observable<any> {
-        return this.http.post<any>("/api/auth/login", formValue);
+    login(formValue: loginInfo): Observable<authRes> {
+        return this.http.post<authRes>("/api/auth/login", formValue);
     }
-    register(formValue: any): Observable<any> {
-        return this.http.post<any>("/api/auth/register", formValue);
+
+    register(formValue: registerInfo): Observable<authRes> {
+        console.log(formValue);
+
+        return this.http.post<authRes>("/api/auth/register", formValue);
     }
     getToken() {
         return localStorage.getItem("mddToken");
@@ -41,6 +45,6 @@ export class AuthentificationService {
     }
 
     getUserInfo() {
-        return this.http.get<any>("/api/auth/me");
+        return this.http.get<userInfo>("/api/auth/me");
     }
 }

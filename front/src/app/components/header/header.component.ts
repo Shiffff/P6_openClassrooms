@@ -13,7 +13,7 @@ import { AuthentificationService } from "../../services/authentification.service
 export class HeaderComponent {
     router = inject(Router);
     authService = inject(AuthentificationService);
-    mobileMenuStatus = true;
+    mobileMenuStatus = false;
 
     isLogged$ = this.authService.isLoggedIn();
 

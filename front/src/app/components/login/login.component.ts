@@ -4,7 +4,7 @@ import { FormControl, FormGroup, ReactiveFormsModule, Validators } from "@angula
 import { Observable, finalize, map, tap } from "rxjs";
 import { AuthentificationService } from "../../services/authentification.service";
 import { Router, RouterLink } from "@angular/router";
-import { authRes } from "../../models/authModel";
+import { authRes, loginInfo } from "../../models/authModel";
 
 @Component({
     selector: "app-login",
@@ -32,7 +32,7 @@ export class LoginComponent {
     onSubmitForm() {
         this.form.markAllAsTouched();
         this.ErrorMsg = null;
-        const formvalue = this.form.value;
+        const formvalue = this.form.value as loginInfo;
         if (!this.form.valid || !this.form.dirty || !formvalue) return;
         console.log(formvalue);
         this.loading = true;
