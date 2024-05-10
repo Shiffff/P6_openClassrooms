@@ -6,6 +6,7 @@ import { AuthentificationService } from "../../services/authentification.service
 import { Observable, finalize, map, tap } from "rxjs";
 import { UserService } from "../../services/user.service";
 import { ThemesService } from "../../services/themes.service";
+import { authRes, registerInfo } from "../../models/authModel";
 
 @Component({
     selector: "app-profil",
@@ -19,7 +20,7 @@ export class ProfilComponent {
     private userService = inject(UserService);
     private themesService = inject(ThemesService);
     ErrorMsg!: number | null;
-    requestRes$?: Observable<any>;
+    requestRes$?: Observable<authRes>;
 
     userInfo$ = this.authService.getUserInfo();
     themes$ = this.themesService.getSubscribedThemes();
@@ -36,11 +37,14 @@ export class ProfilComponent {
     putUserInfo() {
         this.ErrorMsg = null;
         this.form.markAsTouched();
-        const formvalue = this.form.value;
+        const formvalue = this.form.value as registerInfo;
         console.log(formvalue);
         this.loading = true;
         this.form.disable();
         this.requestRes$ = this.userService.userInfo(formvalue).pipe(
+            tap((test) => {
+                console.log(test);
+            }),
             tap({
                 error: (err) => {
                     this.ErrorMsg = err.error.code;
@@ -56,8 +60,7 @@ export class ProfilComponent {
             }),
         );
     }
-    subscribe(themeId: any) {
-        console.log("UnSubscribing to theme with ID:", themeId);
+    subscribe(themeId: number) {
         this.themesService
             .themeUnsubscribe(themeId)
             .pipe(

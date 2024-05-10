@@ -1,19 +1,32 @@
-@if (article$ | async; as article) {
-    <h3>{{ article.title }}</h3>
-    <p>{{ article.content }}</p>
-    <hr />
-    <div class="comment-container">
-        @for (comment of article.comments; track comment) {
-            <div class="comment-item">
-                <p>{{ comment.author }}</p>
-                <p>{{ comment.content }}</p>
-            </div>
-        }
+<div class="arrowContainer" routerLink="/">
+    <img src="/assets/icons/arrow.svg" alt="arrow" />
+</div>
+<div class="artile-container">
+    @if (article$ | async; as article) {
+        <h3>{{ article.title }}</h3>
+        <div class="article-details">
+            <p>{{ article.createdAt | date: "dd/MM/yyyy HH:mm" }}</p>
+            <p>{{ article.author }}</p>
+            <p>{{ article.themeName }}</p>
+        </div>
+        <p class="article-content">{{ article.content }}</p>
+        <hr />
+        <div class="comment-container">
+            <p>Commentaires</p>
+            @for (comment of article.comments; track comment) {
+                <div class="comment-item">
+                    <p>{{ comment.author }}</p>
+                    <p class="comment-content">{{ comment.content }}</p>
+                </div>
+            }
+        </div>
+    } @else {
+        <div class="loader-container">
+            <div class="loader"></div>
+        </div>
+    }
+    <div class="add-comment-container">
+        <textarea type="text" id="content" placeholder="Commentaire" [formControl]="comment"></textarea>
+        <img (click)="onSubmitForm()" src="/assets/icons/send.svg" alt="sendIcon" />
     </div>
-} @else {
-    <div class="loader-container">
-        <div class="loader"></div>
-    </div>
-}
-<input type="text" id="content" placeholder="Commentaire" [formControl]="comment" />
-<button (click)="onSubmitForm()">send</button>
+</div>

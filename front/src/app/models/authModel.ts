@@ -3,7 +3,7 @@ export interface authRes {
 }
 export interface registerInfo {
     email: string;
-    password: string;
+    password?: string;
     username: string;
 }
 export interface loginInfo {

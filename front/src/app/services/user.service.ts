@@ -1,6 +1,7 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable, inject } from "@angular/core";
 import { Observable } from "rxjs";
+import { authRes, registerInfo } from "../models/authModel";
 
 @Injectable({
     providedIn: "root",
@@ -8,8 +9,7 @@ import { Observable } from "rxjs";
 export class UserService {
     private http = inject(HttpClient);
 
-    userInfo(formValue: any): Observable<any> {
-        console.log(formValue);
-        return this.http.put<any>("/api/auth/me", formValue);
+    userInfo(formValue: registerInfo): Observable<authRes> {
+        return this.http.put<authRes>("/api/auth/me", formValue);
     }
 }

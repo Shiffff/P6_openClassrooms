@@ -1,46 +1,30 @@
 <div class="topcontainer">
-    <button routerLink="/new-article">Créer un articles</button>
-    <p class="sort-container"
-        >Trier par
+    <button routerLink="/new-article">Créer un article</button>
+    <p class="sort-container" (click)="toggleSort()">
+        Trier par
         <img src="/assets/icons/littleArrow.svg" alt="arrow" />
     </p>
 </div>
-@if (articles$ | async; as articles) {
-    @if (articles[0]) {
-        <div class="article-container">
-            @for (article of articles; track article) {
-                <div class="article-item" [routerLink]="['/article', article.id]">
-                    <li>
-                        <h3>
-                            {{ article.title }}
-                        </h3>
-                    </li>
-                    <div class="authorDateContainer">
-                        <li>
-                            <p>
-                                {{ article.createdAt | date: "dd/MM/yyyy HH:mm" }}
-                            </p>
-                        </li>
-                        <li>
-                            <p>
-                                {{ article.author }}
-                            </p>
-                        </li>
-                    </div>
 
-                    <li>
-                        <p>
-                            {{ article.content }}
-                        </p>
-                    </li>
-                </div>
-            }
+<div class="article-container" *ngIf="articles$ | async as articles">
+    <div class="article-item" [routerLink]="['/article', article.id]" *ngFor="let article of sortArticlesByDate(articles)">
+        <li>
+            <h3>{{ article.title }}</h3>
+        </li>
+        <div class="authorDateContainer">
+            <li>
+                <p>{{ article.createdAt | date: "dd/MM/yyyy HH:mm" }}</p>
+            </li>
+            <li>
+                <p>{{ article.author }}</p>
+            </li>
         </div>
-    } @else {
-        Pas de thème
-    }
-} @else {
-    <div class="loader-container">
-        <div class="loader"></div>
+        <li>
+            <p>{{ article.content }}</p>
+        </li>
     </div>
-}
+</div>
+
+<div class="loader-container" *ngIf="!(articles$ | async)">
+    <div class="loader"></div>
+</div>

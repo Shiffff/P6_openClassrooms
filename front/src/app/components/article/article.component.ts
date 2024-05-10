@@ -1,21 +1,22 @@
 import { Component, inject } from "@angular/core";
-import { ActivatedRoute } from "@angular/router";
+import { ActivatedRoute, RouterLink } from "@angular/router";
 import { ArticlesService } from "../../services/articles.service";
 import { CommonModule } from "@angular/common";
-import { Observable, tap } from "rxjs";
+import { Observable, finalize, tap } from "rxjs";
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from "@angular/forms";
+import { article, newComment } from "../../models/articlesModel";
 
 @Component({
     selector: "app-article",
     standalone: true,
-    imports: [CommonModule, ReactiveFormsModule],
+    imports: [CommonModule, ReactiveFormsModule, RouterLink],
     templateUrl: "./article.component.html",
     styleUrl: "./article.component.scss",
 })
 export class ArticleComponent {
     private articlesService = inject(ArticlesService);
     private route = inject(ActivatedRoute);
-    article$!: Observable<any>;
+    article$!: Observable<article>;
     ErrorMsg!: number | null;
 
     loading = false;
@@ -38,10 +39,10 @@ export class ArticleComponent {
     onSubmitForm() {
         this.ErrorMsg = null;
         this.form.markAsTouched();
-        const formvalue: any = {
+        const formvalue = {
             ...this.form.value,
             articleId: this.articleId,
-        };
+        } as newComment;
         this.loading = true;
         this.form.disable();
         this.articlesService
@@ -49,6 +50,10 @@ export class ArticleComponent {
             .pipe(
                 tap(() => {
                     this.article$ = this.articlesService.getArticle(this.articleId);
+                }),
+                finalize(() => {
+                    this.form.enable();
+                    this.form.reset();
                 }),
             )
             .subscribe();

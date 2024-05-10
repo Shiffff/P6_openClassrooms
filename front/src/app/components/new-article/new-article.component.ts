@@ -38,10 +38,12 @@ export class NewArticleComponent {
         this.ErrorMsg = null;
         this.form.markAsTouched();
         const formvalue = this.form.value;
-        console.log(formvalue);
         this.loading = true;
         this.form.disable();
         this.requestRes$ = this.articleService.newArticle(formvalue).pipe(
+            tap((test) => {
+                console.log(test);
+            }),
             tap({
                 error: (err) => {
                     this.ErrorMsg = err.error.code;
