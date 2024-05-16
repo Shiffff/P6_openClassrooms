@@ -25,7 +25,7 @@ public class ThemeController {
 
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Opération réussie"),
-            @ApiResponse(responseCode = "403", description = "Non autorisé")
+            @ApiResponse(responseCode = "401", description = "Non autorisé")
     })
     @GetMapping(path = "/themes")
     public ResponseEntity<List<ThemeDTO>> findAll() {
@@ -35,7 +35,7 @@ public class ThemeController {
     }
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Opération réussie"),
-            @ApiResponse(responseCode = "403", description = "Non autorisé")
+            @ApiResponse(responseCode = "401", description = "Non autorisé")
     })
     @PostMapping(path = "/themes/{themeId}/subscribe")
     public ResponseEntity<Map<String, String>> subscribe(@PathVariable Long themeId) {
@@ -46,7 +46,7 @@ public class ThemeController {
     }
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Opération réussie"),
-            @ApiResponse(responseCode = "403", description = "Non autorisé")
+            @ApiResponse(responseCode = "401", description = "Non autorisé")
     })
     @PostMapping(path = "/themes/{themeId}/unsubscribe")
     public ResponseEntity<Map<String, String>> unsubscribe(@PathVariable Long themeId) {
@@ -57,7 +57,7 @@ public class ThemeController {
     }
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Opération réussie"),
-            @ApiResponse(responseCode = "403", description = "Non autorisé")
+            @ApiResponse(responseCode = "401", description = "Non autorisé")
     })
     @GetMapping(path = "/themes/subscribed")
     public ResponseEntity<List<Theme>> getSubscribedThemes() {

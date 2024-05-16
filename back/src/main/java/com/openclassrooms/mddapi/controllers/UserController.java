@@ -74,7 +74,7 @@ public class UserController {
     }
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Opération réussie"),
-            @ApiResponse(responseCode = "403", description = "Non autorisé")
+            @ApiResponse(responseCode = "401", description = "Non autorisé")
     })
     @GetMapping(path = "auth/me")
     public ResponseEntity<UserInfoDTO> me() {
@@ -83,7 +83,7 @@ public class UserController {
     }
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Opération réussie"),
-            @ApiResponse(responseCode = "403", description = "Non autorisé")
+            @ApiResponse(responseCode = "401", description = "Non autorisé")
     })
     @PutMapping(path = "auth/me")
     public ResponseEntity<Map<String, String>> updateMe(@RequestBody UserDTO userDTO) {
@@ -99,7 +99,7 @@ public class UserController {
     }
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Opération réussie"),
-            @ApiResponse(responseCode = "403", description = "Non autorisé")
+            @ApiResponse(responseCode = "401", description = "Non autorisé")
     })
     @DeleteMapping(path = "user")
     public ResponseEntity<String> deleteUser() {

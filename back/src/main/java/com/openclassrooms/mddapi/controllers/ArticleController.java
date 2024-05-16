@@ -26,7 +26,7 @@ public class ArticleController {
 
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Opération réussie"),
-            @ApiResponse(responseCode = "403", description = "Non autorisé")
+            @ApiResponse(responseCode = "401", description = "Non autorisé")
     })
     @PostMapping(path = "/article")
     public ResponseEntity<ArticlesResDTO> createArticle(@RequestBody ArticleDTO articleDTO) {
@@ -36,7 +36,7 @@ public class ArticleController {
 
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Opération réussie"),
-            @ApiResponse(responseCode = "403", description = "Non autorisé"),
+            @ApiResponse(responseCode = "401", description = "Non autorisé"),
     })
     @GetMapping(path = "/article/{id}")
     public ResponseEntity<ArticlesResDTO> getArticleById(@PathVariable Long id) {
@@ -46,7 +46,7 @@ public class ArticleController {
 
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Opération réussie"),
-            @ApiResponse(responseCode = "403", description = "Non autorisé")
+            @ApiResponse(responseCode = "401", description = "Non autorisé")
     })
     @GetMapping(path = "/articles/subscribed")
     public ResponseEntity<List<ArticlesResDTO>> getArticlesWithCommentsFromSubscribedThemesByUser() {
@@ -56,7 +56,7 @@ public class ArticleController {
 
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Opération réussie"),
-            @ApiResponse(responseCode = "403", description = "Non autorisé")
+            @ApiResponse(responseCode = "401", description = "Non autorisé")
     })
     @PostMapping("/comment")
     public ResponseEntity<CommentDTO> createComment(@RequestBody CommentDTO commentDTO) {
