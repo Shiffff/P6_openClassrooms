@@ -6,6 +6,8 @@ import com.openclassrooms.mddapi.dto.UserInfoDTO;
 import com.openclassrooms.mddapi.entity.User;
 import com.openclassrooms.mddapi.services.JWTService;
 import com.openclassrooms.mddapi.services.UserService;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -25,7 +27,6 @@ import java.util.Map;
 @RestController
 @AllArgsConstructor
 @Slf4j
-@SecurityRequirement(name = "auth")
 public class UserController {
 
     private final AuthenticationManager authenticationManager;
@@ -71,13 +72,19 @@ public class UserController {
 
         throw new BadCredentialsException("Invalid email/username or password");
     }
-
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Opération réussie"),
+            @ApiResponse(responseCode = "403", description = "Non autorisé")
+    })
     @GetMapping(path = "auth/me")
     public ResponseEntity<UserInfoDTO> me() {
         User userInfo = userService.getCurrentUser();
         return ResponseEntity.ok(new UserInfoDTO(userInfo));
     }
-
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Opération réussie"),
+            @ApiResponse(responseCode = "403", description = "Non autorisé")
+    })
     @PutMapping(path = "auth/me")
     public ResponseEntity<Map<String, String>> updateMe(@RequestBody UserDTO userDTO) {
         User currentUser = userService.getCurrentUser();
@@ -90,7 +97,10 @@ public class UserController {
 
         return ResponseEntity.ok(newToken);
     }
-
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Opération réussie"),
+            @ApiResponse(responseCode = "403", description = "Non autorisé")
+    })
     @DeleteMapping(path = "user")
     public ResponseEntity<String> deleteUser() {
         try {
